@@ -5,10 +5,12 @@
 #include "Renderer.h"
 #include "Framebuffer.h"
 #include "Camera.h"
+#include "Scene.h"
+#include "Sphere.h"
 
 int main() {
-	constexpr int SCREEN_WIDTH = 800;
-	constexpr int SCREEN_HEIGHT = 600;
+	constexpr int SCREEN_WIDTH = 1800;
+	constexpr int SCREEN_HEIGHT = 900;
 
 	// create renderer
 	Renderer renderer;
@@ -17,9 +19,14 @@ int main() {
 
 	Framebuffer framebuffer(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	float aspectRatio = framebuffer.width / framebuffer.height;
+	float aspectRatio = (float)framebuffer.width / framebuffer.height;
 	Camera camera(70.0f, aspectRatio);
 	camera.SetView({ 0, 0, -5 }, { 0, 0, 0 });
+
+	Scene scene;
+	scene.AddObject(std::make_unique<Sphere>(glm::vec3{ -2, .5, 0 }, 1.0f, color3_t{ 1, 0, 0 }));
+	scene.AddObject(std::make_unique<Sphere>(glm::vec3{ 2, -.5, 0 }, 1.0f, color3_t{ 1, 0, 1 }));
+
 
 	SDL_Event event;
 	bool quit = false;
@@ -38,8 +45,8 @@ int main() {
 
 		// draw to frame buffer
 		framebuffer.Clear({ 0, 0, 0, 255 });
-		for (int i = 0; i < 300; i++) framebuffer.DrawPoint(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT, { 255, 255, 255, 255 });
-
+		scene.Render(framebuffer, camera);
+		
 		// update frame buffer, copy buffer pixels to texture
 		framebuffer.Update();
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "Color.h"
 #include <glm/glm.hpp>
 
 struct Ray {
@@ -17,4 +18,12 @@ public:
 
 	glm::vec3 origin{0.0f};
 	glm::vec3 direction{0.0f, 0.0f, -1.0f};
+};
+
+struct raycastHit_t {
+	glm::vec3 point;	
+	glm::vec3 normal;	
+	float distance;	
+
+	color3_t color;	
 };
