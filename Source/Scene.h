@@ -10,7 +10,7 @@ class Scene
 public:
 	Scene() = default;
 
-	void Render(class Framebuffer& framebuffer, const class Camera& camera);
+	void Render(class Framebuffer& framebuffer, const class Camera& camera, int numSamples = 10);
 	void SetSky(const color3_t& skyBottom, const color3_t& skyTop) {
 		this->skyBottom = skyBottom;
 		this->skyTop = skyTop;

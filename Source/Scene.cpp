@@ -4,20 +4,32 @@
 #include "Color.h"
 
 #include <iostream>
+#include <random>
 
-void Scene::Render(Framebuffer& framebuffer, const Camera& camera) {
+void Scene::Render(Framebuffer& framebuffer, const Camera& camera, int numSamples) {
 	for (int y = 0; y < framebuffer.height; y++) {
 		for (int x = 0; x < framebuffer.width; x++) {
 
-			glm::vec2 pixel{ x, y };
-			glm::vec2 point = pixel / glm::vec2{ framebuffer.width, framebuffer.height };
-			// flip the y value (bottom = 0, top = 1)
-			point.y = 1 - point.y;
+			color3_t color{ 0 };
 
-			Ray ray = camera.GetRay(point);
-			raycastHit_t raycastHit;
+			for (int i = 0; i < numSamples; i++) {
+				glm::vec2 pixel{ x, y };
 
-			color3_t color = Trace(ray, 0, 100, raycastHit);
+				//< add vec2{ random real 0 - 1, random real 0 - 1 } > ;
+				pixel += glm::vec2{ static_cast<float>(rand()) / RAND_MAX, static_cast<float>(rand()) / RAND_MAX };
+
+				glm::vec2 point = pixel / glm::vec2{ framebuffer.width, framebuffer.height };
+
+				point.y = 1 - point.y;
+
+				// get ray from camera
+				Ray ray = camera.GetRay(point);
+				raycastHit_t raycastHit;
+				// trace ray
+				color += Trace(ray, 0, 100, raycastHit);
+			}
+			// get average color = (color / number samples)
+			color /= static_cast<float>(numSamples);
 			framebuffer.DrawPoint(x, y, ColorConvert(color));
 		}
 	}
@@ -33,10 +45,10 @@ color3_t Scene::Trace(const Ray& ray, float minDistance, float maxDistance, rayc
 
 	for (auto& object : objects) {
 
-			if (object->Hit(ray, minDistance, closestDistance, raycastHit)) {
-				rayHit = true;
-				closestDistance = raycastHit.distance;
-			}
+		if (object->Hit(ray, minDistance, closestDistance, raycastHit)) {
+			rayHit = true;
+			closestDistance = raycastHit.distance;
+		}
 	}
 
 	if (rayHit) {

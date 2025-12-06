@@ -45,7 +45,7 @@ int main() {
 
 		// draw to frame buffer
 		framebuffer.Clear({ 0, 0, 0, 255 });
-		scene.Render(framebuffer, camera);
+		scene.Render(framebuffer, camera, 50);
 		
 		// update frame buffer, copy buffer pixels to texture
 		framebuffer.Update();
