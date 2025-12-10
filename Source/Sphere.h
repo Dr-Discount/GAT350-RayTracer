@@ -6,8 +6,8 @@ class Sphere : public Object
 {
 public:
 	Sphere() = default;
-	Sphere(const glm::vec3& position, float radius, const color3_t& color) :
-		Object(color),
+	Sphere(const glm::vec3& position, float radius, std::shared_ptr<Material> material) :
+		Object(material),
 		position(position),
 		radius(radius)
 	{ }

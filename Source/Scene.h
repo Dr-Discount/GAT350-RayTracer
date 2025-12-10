@@ -19,7 +19,7 @@ public:
 	void AddObject(std::unique_ptr<Object> object);
 
 private:
-	color3_t Trace(const Ray& ray, float minDistance, float maxDistance, raycastHit_t& raycastHit);
+	color3_t Trace(const Ray& ray, float minDistance, float maxDistance, int maxDepth = 5);
 
 private:
 	color3_t skyBottom{ 0, 0, 1 };
