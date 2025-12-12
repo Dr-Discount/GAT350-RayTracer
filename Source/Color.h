@@ -1,7 +1,6 @@
 #pragma once
 #include <SDL3/SDL.h>
 #include <glm/glm.hpp>
-#include <algorithm>
 
 // use alias to clarify type name
 using color3_t = glm::vec3;

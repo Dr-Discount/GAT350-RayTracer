@@ -23,7 +23,7 @@ private:
 
 private:
 	color3_t skyBottom{ 0, 0, 1 };
-	color3_t skyTop{ 0, 1, 0 };
+	color3_t skyTop{ 1, 1, 1 };
 
 	std::vector<std::unique_ptr<class Object>> objects;
 };
